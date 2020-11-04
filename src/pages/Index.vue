@@ -1,8 +1,6 @@
 <template>
   <q-page>
-    <section v-if="errored">
-      No Internet
-    </section>
+    <section v-if="errored">No Internet</section>
 
     <section v-else>
       <div v-if="loading">
@@ -10,22 +8,18 @@
       </div>
 
       <div class="row justify-around q-ma-md">
-        <div
-          v-for="surah in surahs"
-          :key="surah.id"
-          class="col-4 col-xs-12 col-md-3 q-ma-md"
-        >
+        <div v-for="surah in surahs" :key="surah.id" class="col-4 col-xs-12 col-md-3 q-ma-md">
           <q-card flat bordered>
             <q-card-section>
               <div class="text-h6">
                 <span class="number">{{ surah.number }}</span>
-                <span class="float-right"> {{ surah.englishName }} </span>
+                <span class="float-right">{{ surah.englishName }}</span>
               </div>
             </q-card-section>
             <q-separator />
             <q-card-section>
               {{ surah.englishNameTranslation }}
-              <span class="float-right"> {{ surah.name }} </span>
+              <span class="float-right">{{ surah.name }}</span>
             </q-card-section>
           </q-card>
         </div>
@@ -35,7 +29,6 @@
 </template>
 
 <script>
-// import ky from "ky";
 import axios from "axios";
 
 export default {
@@ -65,20 +58,5 @@ export default {
       })
       .finally(() => (this.loading = false));
   },
-
-  // created() {
-  //   (async () => {
-  //     const parsed = await ky.get(this.apiquran).json();
-  //     console.log(parsed, "tempd");
-
-  //     this.tempSetup = parsed.data.surahs;
-  //     console.log(this.tempSetup, "temps");
-
-  // const surahs = [];
-  // for (let surahs = 0; surahs < this.tempSetup.length; surahs++) {
-  //   console.log(surahs, "ayahs");
-  // }
-  // })();
-  // },
 };
 </script>
