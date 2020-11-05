@@ -1,14 +1,20 @@
 <template>
-  <q-page>
+  <q-page class="bg-grey-2">
     <section v-if="errored">No Internet</section>
 
     <section v-else>
       <div v-if="loading">
-        <q-spinner-dots color="primary" size="2em" class="text-center" />
+        <div class="row justify-center content-center">
+          <q-spinner-dots color="primary" size="4.4em" />
+        </div>
       </div>
 
-      <div class="row justify-around q-ma-md">
-        <div v-for="surah in surahs" :key="surah.id" class="col-4 col-xs-12 col-md-3 q-ma-md">
+      <div class="row justify-around">
+        <div
+          v-for="surah in surahs"
+          :key="surah.id"
+          class="col-4 col-xs-12 col-sm-3 col-md-3 q-ma-md"
+        >
           <q-card flat bordered>
             <q-card-section>
               <div class="text-h6">
@@ -19,7 +25,7 @@
             <q-separator />
             <q-card-section>
               {{ surah.englishNameTranslation }}
-              <span class="float-right">{{ surah.name }}</span>
+              <p class="float-right text-subtitle1">{{ surah.name }}</p>
             </q-card-section>
           </q-card>
         </div>
@@ -30,13 +36,14 @@
 
 <script>
 import axios from "axios";
+import router from "../router";
 
 export default {
-  name: "PageIndex",
+  name: "customer",
   data() {
     return {
       lorem: "Lorem ipsum dolor sit amet",
-      base_path: "http://api.alquran.cloud/v1/quran/quran-uthmani",
+      base_path: "http://api.alquran.cloud/v1/surah",
       tempSetup: [],
       ayahs: [],
       surahs: null,
@@ -49,7 +56,7 @@ export default {
     axios
       .get(this.base_path)
       .then((response) => {
-        this.surahs = response.data.data.surahs;
+        this.surahs = response.data.data;
         console.log(this.surahs);
       })
       .catch((error) => {

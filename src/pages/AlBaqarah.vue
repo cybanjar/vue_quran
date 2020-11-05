@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Al Fatehah</h1>
+    <h1>Albaqarah</h1>
     <q-btn
       class="q-mt-xl"
       color="white"

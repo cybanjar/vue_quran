@@ -19,8 +19,20 @@ const routes = [{
   },
   {
     path: "/1",
+    name: "alfatehah",
     component: () => import("pages/Alfatehah.vue")
+  },
+  {
+    path: "/2",
+    name: "albaqarah",
+    component: () => import("pages/AlBaqarah.vue")
+  },
+  {
+    path: "/pages/:id",
+    name: "pages-details",
+    component: () => import("pages/SingleBlog.vue")
   }
+
 ];
 
 export default routes;
