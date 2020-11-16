@@ -59,7 +59,8 @@ export default {
       .then((response) => {
         // Headers('Access-Control-Allow-Origin: *');
         this.surahs = response.data.data;
-        console.log(this.surahs);
+        console.log(this.surahs, 'api');
+        dataLocal = localStorage.setItem("dataStorage", JSON.stringify(response.data.data));
       })
       .catch((error) => {
         console.log(error);
