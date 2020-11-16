@@ -1,6 +1,6 @@
 <template>
   <q-page class="bg-grey-2">
-    <section v-if="errored">No Internet</section>
+    <section v-if="errored">Request Timeout</section>
 
     <section v-else>
       <div v-if="loading">
@@ -15,7 +15,7 @@
           :key="surah.id"
           class="col-4 col-xs-12 col-sm-3 col-md-3 q-ma-md"
         >
-          <q-card flat bordered>
+          <q-card @click="goToAyah" flat bordered class="q-mx-sm">
             <q-card-section>
               <div class="text-h6">
                 <span class="number">{{ surah.number }}</span>
@@ -49,13 +49,15 @@ export default {
       surahs: null,
       errored: false,
       loading: true,
+      showModal: false,
     };
   },
 
-  mounted() {
-    axios
+  created() {
+    axios //.headers['Access-Control-Allow-Origin'] = '*'
       .get(this.base_path)
       .then((response) => {
+        // Headers('Access-Control-Allow-Origin: *');
         this.surahs = response.data.data;
         console.log(this.surahs);
       })
@@ -64,6 +66,13 @@ export default {
         this.errored = true;
       })
       .finally(() => (this.loading = false));
+  },
+
+  methods: {
+    goToAyah() {
+      //this.showModal = true;
+      console.log("Sucess");
+    },
   },
 };
 </script>
