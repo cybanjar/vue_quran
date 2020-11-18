@@ -48,26 +48,35 @@ export default {
       ayahs: [],
       surahs: null,
       errored: false,
-      loading: true,
+      loading: false,
       showModal: false,
     };
   },
 
   created() {
-    axios //.headers['Access-Control-Allow-Origin'] = '*'
-      .get(this.base_path)
-      .then((response) => {
-        // Headers('Access-Control-Allow-Origin: *');
-        this.surahs = response.data.data;
-        console.log(this.surahs, 'api');
-        dataLocal = localStorage.setItem("dataStorage", JSON.stringify(response.data.data));
-      })
-      .catch((error) => {
-        console.log(error);
-        this.errored = true;
-      })
-      .finally(() => (this.loading = false));
+    const x =JSON.parse(localStorage.getItem("dataStorage"));
+    console.log(x, 'x');
+    if (x == null) {
+      this.loading = true      
+      axios
+        .get(this.base_path)
+        .then((response) => {
+          this.surahs = response.data.data;
+          // console.log(this.surahs, 'data dari API');
+          localStorage.setItem("dataStorage", JSON.stringify(response.data.data));
+        })
+        .catch((error) => {
+          console.log(error);
+          this.errored = true;
+        })
+        .finally(() => (this.loading = false));
+    } else {
+      this.loading = false
+      this.surahs = JSON.parse(localStorage.getItem("dataStorage"));
+    }
+    
   },
+
 
   methods: {
     goToAyah() {
