@@ -29,15 +29,17 @@
             </q-card-section>
           </q-card>
 
-          <q-btn
+          <!-- <q-btn
             flat
             class="bg-primary text-white"
             @click="goToAyah(surahs)"
             label="Save"
-          />
+          /> -->
         </div>
       </div>
     </section>
+
+    <!-- Dialog for surahs -->
     <q-dialog
       v-model="dialog"
       persistent
@@ -79,16 +81,12 @@
             <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
-
         <q-card-section>
-          <div class="text-h6">Alert {{ surahs[0]["englishName"] }}</div>
+          <div class="text-h6">Surah {{ surahs[1]["englishName"] }}</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
-          repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis
-          perferendis totam, ea at omnis vel numquam exercitationem aut, natus
-          minima, porro labore.
+          {{ lorem }}
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -96,6 +94,7 @@
 </template>
 
 <script>
+import data from "../components/quran.json";
 import axios from "axios";
 import router from "../router";
 import Vue from "vue";
@@ -105,43 +104,50 @@ export default {
   data() {
     return {
       lorem: "Lorem ipsum dolor sit amet",
-      base_path: "http://api.alquran.cloud/v1/surah",
+      // base_path: "https://api.alquran.cloud/v1/surah",
       tempSetup: [],
-      ayahs: [],
-      surahs: null,
+      ayahs: data.data.surahs.ayahs,
+      surahs: data.data.surahs,
       errored: false,
       loading: false,
       showModal: false,
       data: null,
       dialog: false,
       maximizedToggle: true,
+      filteredSurahs: [],
+      filteredAyahs: [],
     };
   },
 
   created() {
-    const x = JSON.parse(localStorage.getItem("dataStorage"));
-    console.log(x, "x");
-    if (x == null) {
-      this.loading = true;
-      axios
-        .get(this.base_path)
-        .then((response) => {
-          this.surahs = response.data.data;
-          // console.log(this.surahs, 'data dari API');
-          localStorage.setItem(
-            "dataStorage",
-            JSON.stringify(response.data.data)
-          );
-        })
-        .catch((error) => {
-          console.log(error);
-          this.errored = true;
-        })
-        .finally(() => (this.loading = false));
-    } else {
-      this.loading = false;
-      this.surahs = JSON.parse(localStorage.getItem("dataStorage"));
-    }
+    const tempData = this.surahs;
+    console.log("Get Surahs: ", tempData);
+
+    const tempDataAyahs = this.ayahs;
+    console.log("Get Ayahs : ", tempDataAyahs);
+    // const x = JSON.parse(localStorage.getItem("dataStorage"));
+    // console.log(x, "x");
+    // if (x == null) {
+    //   this.loading = true;
+    //   axios
+    //     .get(this.base_path)
+    //     .then((response) => {
+    //       this.surahs = response.data.data;
+    //       // console.log(this.surahs, 'data dari API');
+    //       localStorage.setItem(
+    //         "dataStorage",
+    //         JSON.stringify(response.data.data)
+    //       );
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //       this.errored = true;
+    //     })
+    //     .finally(() => (this.loading = false));
+    // } else {
+    //   this.loading = false;
+    //   this.surahs = JSON.parse(localStorage.getItem("dataStorage"));
+    // }
   },
 
   methods: {
