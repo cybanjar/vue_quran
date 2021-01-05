@@ -15,7 +15,8 @@
     "core-js": "^3.6.5",
     "ky": "^0.24.0",
     "quasar": "^1.0.0",
-    "vue-router": "^3.4.8"
+    "vue-router": "^3.4.8",
+    "@vue/composition-api": "^0.6.7"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0"

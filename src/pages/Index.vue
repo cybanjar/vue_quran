@@ -15,7 +15,7 @@
           :key="surah.id"
           class="col-4 col-xs-12 col-sm-3 col-md-3 q-ma-md"
         >
-          <q-card @click="dialog = true" flat bordered class="q-mx-sm">
+          <q-card @click="goToAyah(surah)" flat bordered class="q-mx-sm">
             <q-card-section>
               <div class="text-h6">
                 <span class="number">{{ surah.number }}</span>
@@ -82,12 +82,26 @@
           </q-btn>
         </q-bar>
         <q-card-section>
-          <div class="text-h6">Surah {{ surahs[1]["englishName"] }}</div>
+          <div class="text-h6">Surah {{ objDetailSurah["englishName"] }}</div>
         </q-card-section>
 
-        <q-card-section class="q-pt-none">
-          {{ lorem }}
-        </q-card-section>
+        <template v-for="ayahs in objDetailSurah['ayahs']">
+          <q-card-section :key="ayahs.number" class="rounded-sm">
+            <q-list class="bg-teal-6" separator>
+              <q-item-section>
+                <q-item-label lines="1">
+                  <p class="q-pa-xs">{{ ayahs["number"] }}</p>
+                </q-item-label>
+                <!-- <q-item-label caption>January 15th, 2019</q-item-label> -->
+              </q-item-section>
+              <q-item-section side>
+                <p class="text-white q-pa-xs text-body1 text-right">
+                  {{ ayahs["text"] }}
+                </p>
+              </q-item-section>
+            </q-list>
+          </q-card-section>
+        </template>
       </q-card>
     </q-dialog>
   </q-page>
@@ -106,7 +120,7 @@ export default {
       lorem: "Lorem ipsum dolor sit amet",
       // base_path: "https://api.alquran.cloud/v1/surah",
       tempSetup: [],
-      ayahs: data.data.surahs.ayahs,
+      ayahs: [],
       surahs: data.data.surahs,
       errored: false,
       loading: false,
@@ -116,46 +130,22 @@ export default {
       maximizedToggle: true,
       filteredSurahs: [],
       filteredAyahs: [],
+      objDetailSurah: {},
     };
   },
 
   created() {
     const tempData = this.surahs;
     console.log("Get Surahs: ", tempData);
-
-    const tempDataAyahs = this.ayahs;
-    console.log("Get Ayahs : ", tempDataAyahs);
-    // const x = JSON.parse(localStorage.getItem("dataStorage"));
-    // console.log(x, "x");
-    // if (x == null) {
-    //   this.loading = true;
-    //   axios
-    //     .get(this.base_path)
-    //     .then((response) => {
-    //       this.surahs = response.data.data;
-    //       // console.log(this.surahs, 'data dari API');
-    //       localStorage.setItem(
-    //         "dataStorage",
-    //         JSON.stringify(response.data.data)
-    //       );
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       this.errored = true;
-    //     })
-    //     .finally(() => (this.loading = false));
-    // } else {
-    //   this.loading = false;
-    //   this.surahs = JSON.parse(localStorage.getItem("dataStorage"));
-    // }
   },
 
   methods: {
     goToAyah(row) {
       //this.showModal = true;
+      this.dialog = true;
       console.log("row", row);
-      // router.push({ name: '/landing' })
-      // alert(row["name"]);
+
+      this.objDetailSurah = row;
     },
   },
 };
